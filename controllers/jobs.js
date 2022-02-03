@@ -28,6 +28,8 @@ async function stuff(_req, res){
 }
 
 
+
+
 async function home(_req, res) {
   try {
     console.log('jobs home route accessed');
