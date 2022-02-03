@@ -16,6 +16,7 @@ async function stuff(_req, res){
   try {
     const jobs = await Job.find({userInfo: '61fbf052eca2ed9c6e971dd9'})
       .populate('userInfo')
+      // .select("-jobNumber")
       .exec();
     console.log(jobs);
 
