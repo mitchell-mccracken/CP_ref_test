@@ -38,7 +38,7 @@ async function myFunc(req, res) {
 
 
 
-mongoose.connection.once('open', () => { console.log('connected to mongo at' + url);})
+mongoose.connection.once('open', () => { console.log('connected to mongo at ' + url);})
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

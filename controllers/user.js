@@ -14,9 +14,7 @@ async function home(_req, res) {
   try {
     console.log('users home route accessed');
     const allUsers = await User.find();
-    let allUserIds = allUsers.map(x => x._id)
-    console.log(allUserIds);
-    res.send(allUserIds);
+    res.send(allUsers);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);

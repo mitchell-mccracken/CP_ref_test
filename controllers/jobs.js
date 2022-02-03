@@ -20,9 +20,7 @@ async function randomQuery(_req, res){
       .populate('userInfo')
       // .select("-jobNumber")
       .exec();
-    console.log(jobs);
-
-
+    // console.log(jobs);
     res.send(jobs);
   } catch (error) {
     console.log(error);
@@ -35,8 +33,8 @@ async function home(_req, res) {
     console.log('jobs home route accessed');
     const allJobs = await Job.find({});
     // console.log(allJobs);
-    let allUserInfo = allJobs.map(x => x.userInfo)
-    console.log(allUserInfo);
+    // let allUserInfo = allJobs.map(x => x.userInfo)
+    // console.log(allUserInfo);
     res.send(allJobs);
   } catch (error) {
     console.log(error);
