@@ -2,25 +2,25 @@ const express = require('express');
 const Job = require('../models/jobs');
 const User = require('../models/user');
 const jobs = express.Router();
-const mongoose = require('mongoose')
-// const ObjectId = mongoose.Types.ObjectId;
+
 
 //routes
-jobs.get('/' , home);
-jobs.post('/create' , createJob);
+jobs.get('/' , getAllJobs);
+jobs.post('/create' , createJobs);
 jobs.post('/removeAll' , removeAll);
 jobs.get('/jobQuery' , randomQuery);
 
 
 
 //functions
-async function randomQuery(_req, res){
+async function randomQuery(_req, res){    //randomly finds a user, then finds any jobs they are associated with
   try {
-    const jobs = await Job.find({})
+    const allUsers = await getAllUserIds();
+    let user = allUsers[Math.floor(Math.random() * allUsers.length)]["id"];
+    console.log(user);
+    const jobs = await Job.find({"userInfo":user})
       .populate('userInfo')
-      // .select("-jobNumber")
       .exec();
-    // console.log(jobs);
     res.send(jobs);
   } catch (error) {
     console.log(error);
@@ -28,13 +28,10 @@ async function randomQuery(_req, res){
   }
 }
 
-async function home(_req, res) {
+async function getAllJobs(_req, res) {
   try {
     console.log('jobs home route accessed');
     const allJobs = await Job.find({});
-    // console.log(allJobs);
-    // let allUserInfo = allJobs.map(x => x.userInfo)
-    // console.log(allUserInfo);
     res.send(allJobs);
   } catch (error) {
     console.log(error);
@@ -42,7 +39,7 @@ async function home(_req, res) {
   }
 }
 
-async function getAllUserIds(){
+async function getAllUserIds(){   //helper function, I should add some type of error catching when this is used. If function returns error it will probably break the server
   try {
     let allUsers = await User.find({})    //only get _id data
       .select("_id")
@@ -54,14 +51,13 @@ async function getAllUserIds(){
   }
 }
 
-async function createJob(_req, res) {
+async function createJobs(_req, res) {
   try {
     console.log('create job route accessed');
     const allUsers = await getAllUserIds();
 
     for (let i = 0; i < 10; i++) {
       let user = allUsers[ Math.floor(Math.random() * allUsers.length) ];
-      console.log(user);
       const job = await new Job({
         jobNumber: 1000+i,
         jobDesc: 'something',

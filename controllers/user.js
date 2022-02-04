@@ -4,13 +4,13 @@ const users = express.Router();
 
 
 //routes
-users.get('/' , home);
-users.post('/create' , createUser);
+users.get('/' , getAllUsers);
+users.post('/create' , createUsers);
 users.post('/removeAll' , removeAll);
 
 
 //functions
-async function home(_req, res) {
+async function getAllUsers(_req, res) {
   try {
     console.log('users home route accessed');
     const allUsers = await User.find();
@@ -21,7 +21,7 @@ async function home(_req, res) {
   }
 }
 
-async function createUser(_req, res) {
+async function createUsers(_req, res) {
   try {
     console.log('create user route accessed');
 
@@ -44,12 +44,10 @@ async function removeAll(_req, res) {
     User.collection.deleteMany({});
     console.log('users removed');
     res.sendStatus(200);
-    
   } catch (error) {
     console.log(error);
     res.sendStatus(500);    
   }
-
 };
 
 module.exports = users;
