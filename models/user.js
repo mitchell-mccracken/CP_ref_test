@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   userName: {type:String},
-  userTitle: {type: String}
+  userTitle: {type: String},
+  jobs: {type: Array}
 })
 
 userSchema.path('user')
